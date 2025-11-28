@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Grzyby</title>
+	<meta charset="utf-8">
+	<meta name="keywords" content="słowa kluczowe">
+	<meta name="description" content="opis strony">
+	<link rel="stylesheet" href="styl.css">
+</head>
+<body>
+	<div id="header">
+		<a href="index.html"><img id="logo" src="logo.png"></a>
+		<h2 style="margin-right:50px;">Grzyby</h2>
+		<div id="menu-container">
+			<img id="menu-button" src="menu.png">
+			<ul id="menu" type="none">
+				<li><a href="index.html">Strona główna</a></li>
+				<li><a href="gallery.html">Galeria</a></li>
+				<li><a href="contact.html">Kontakt</a></li>
+				<li><a href="js.html">JS</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="content" class="content2">
+    <h2>Oblicz pole figury:</h2>
+	            <div class="obliczanie_pola">
+        <select>
+            <option value="null">--wybierz figurę--</option>
+            <option value="trojkat">Trójkąt</option>
+            <option value="kwadrat">Kwadrat</option>
+            <option value="trapez">Trapez</option>
+            <option value="kolo">Koło</option>
+        </select>
+    </div>
+
+    <h3 id="wynik"></h3> <!--wartość wprowadzana przez funkcję obliczania pola-->
+	<!-- Zadanie 5 -->
+<h2>Zmień tło strony:</h2>
+<button onclick="zmienKolor()">Zmień kolor</button>
+<button onclick="przywrocKolor()">Przywróć kolor</button>
+<!-- -->
+
+<!-- zadanie 2 -->
+<h2>Wprowadź dane:</h2>
+<label>Wprowadź imię:</label>
+<input type="text" id="imie">
+<br><br>
+<label>Wprowadź wiek:</label>
+<input type="text" id="wiek">
+<br><br>
+<button onclick="daneImiewiek()">Kliknij</button>
+<!-- -->
+
+<!-- mini projekt - licznik kliknnięć -->
+<h2>Licznik kliknięć</h2>
+<p id="licznik">0</p>
+<button id="plus">Kliknij mnie</button>
+<!-- -->
+
+<br><br>
+<h2>Zegar</h2>
+<div id="clock"></div>
+
+<h2>Obliczanie BMI:</h2>
+<label>Wprowadź wagę (w kg):</label>
+<input type="text" id="waga">
+<br><br>
+<label>Wprowadź wzrost (w m):</label>
+<input type="text" id="wzrost">
+<br><br>
+<button onclick="bmi()">Oblicz</button>
+
+  <!-- Zadanie 1: Formatowanie imienia i nazwiska -->
+    <div class="section">
+        <h2>1. Formatowanie imienia i nazwiska</h2>
+        <input type="text" id="firstName" placeholder="Imię">
+        <input type="text" id="lastName" placeholder="Nazwisko">
+        <button id="formatBtn">Formatuj</button>
+        <div id="nameResult" class="result"></div>
+    </div>
+
+    <!-- Zadanie 2: Licznik kliknięć -->
+    <div class="section">
+        <h2>2. Licznik kliknięć</h2>
+        <button id="clickBtn">Kliknij mnie!</button>
+        <div id="clickCount" class="result">Liczba kliknięć: 0</div>
+    </div>
+
+    <!-- Zadanie 3: Operacje na tablicy -->
+    <div class="section">
+        <h2>3. Operacje na tablicy (map, filter, reduce)</h2>
+        <p>Tablica wejściowa: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</p>
+        <button id="arrayBtn">Wykonaj operacje</button>
+        <div id="arrayResult" class="result"></div>
+    </div>
+
+    <!-- Zadanie 4: Operator ?? -->
+    <div class="section">
+        <h2>4. Domyślna nazwa użytkownika (operator ??)</h2>
+        <input type="text" id="usernameInput" placeholder="Wpisz nazwę użytkownika (opcjonalnie)">
+        <button id="usernameBtn">Ustaw nazwę</button>
+        <div id="usernameResult" class="result"></div>
+    </div>
+
+    <!-- Zadanie 5: Lista TODO -->
+    <div class="section">
+        <h2>5. Lista TODO</h2>
+        <input type="text" id="todoInput" placeholder="Dodaj nowe zadanie">
+        <button id="addTodoBtn">Dodaj</button>
+        <ul id="todoList"></ul>
+    </div>
+    <br>
+        <h2>Przelicznik Temperatur</h2>
+        
+        <label for="celsius">Temperatura w stopniach Celsjusza (°C):</label>
+        <input type="number" id="celsius" placeholder="Wprowadź temperaturę" step="0.01">
+        
+        <div class="result" id="result" style="display: none;">
+            <p><strong>Kelwin (K):</strong> <span id="kelvin"></span></p>
+            <p><strong>Fahrenheit (°F):</strong> <span id="fahrenheit"></span></p>
+        </div>
+   
+
+
+
+
+    <script>
+	
+const obliczanie_pola = document.querySelector(".obliczanie_pola");
+obliczanie_pola.setAttribute("style", "height:360px; width:300px; margin-top:30px; border:2px #9e5210 solid; border-radius:20px; display:flex; flex-direction:column; align-items:center;gap:10px; padding:10px;")
+
+const select = document.querySelector("select");
+
+const a = document.createElement("input");
+const b = document.createElement("input");
+const h = document.createElement("input");
+const r = document.createElement("input");
+const przycisk = document.createElement("button");
+przycisk.setAttribute("style", "height:30px;");
+przycisk.append(document.createTextNode("Oblicz pole figury"));
+const przycisk2 = document.createElement("button");
+przycisk2.setAttribute("style", "height:30px;");
+przycisk2.append(document.createTextNode("Zresetuj"));
+a.setAttribute("placeholder", "podaj długość a")
+b.setAttribute("placeholder", "podaj długość b")
+h.setAttribute("placeholder", "podaj wysokość h")
+r.setAttribute("placeholder", "podaj długość promienia")
+select.value = "null";
+const wynik = document.createElement("h4");
+
+function removeInputs () {
+    a.remove();
+    b.remove();
+    h.remove();
+    r.remove();
+    przycisk.remove();
+    przycisk2.remove();
+    wynik.remove();
+};
+
+function clearInputs () {
+    a.value = "";
+    b.value = "";
+    h.value = "";
+    r.value = "";
+    wynik.remove();
+}
+
+select.addEventListener('change', function(){
+    if(select.value === "trojkat"){
+        removeInputs();
+        clearInputs();
+        obliczanie_pola.append(a);
+        obliczanie_pola.append(h);
+        obliczanie_pola.append(przycisk);
+        obliczanie_pola.append(przycisk2);
+    }else if (select.value === "kwadrat"){
+        removeInputs();
+        clearInputs();
+        obliczanie_pola.append(a);
+        obliczanie_pola.append(przycisk);
+        obliczanie_pola.append(przycisk2);
+    }else if (select.value === "trapez"){
+        removeInputs();
+        clearInputs();
+        obliczanie_pola.append(a);
+        obliczanie_pola.append(b);
+        obliczanie_pola.append(h);
+        obliczanie_pola.append(przycisk);
+        obliczanie_pola.append(przycisk2);
+    }else if (select.value === "kolo"){
+        removeInputs();
+        clearInputs();
+        obliczanie_pola.append(r);
+        obliczanie_pola.append(przycisk);
+        obliczanie_pola.append(przycisk2);
+    }else {
+        removeInputs();
+    }
+
+});
+
+przycisk.onclick = function obliczaniePola(){
+    let wyn = 0;
+    if(select.value === "trojkat"){
+        wynik.innerText = (`Pole figury: ${wyn=((a.value * h.value / 2).toFixed(2))}`);
+        whenisNaN(wyn);
+        obliczanie_pola.append(wynik);
+    }else if (select.value === "kwadrat"){
+        wynik.innerText = (`Pole figury: ${wyn=((a.value ** 2).toFixed(2))}`);
+        whenisNaN(wyn);
+        obliczanie_pola.append(wynik);
+    }else if (select.value === "trapez"){
+        wynik.innerText = (`Pole figury: ${wyn=(((+a.value + +b.value) * h.value / 2).toFixed(2))}`); //musi być +a + +b , nie a + b, bo nie doda liczb do siebie, tylko doda jako string
+        whenisNaN(wyn);
+        obliczanie_pola.append(wynik);
+    }else if (select.value === "kolo"){
+        wynik.innerText = (`Pole figury: ${wyn=((Math.PI.toFixed(2) * (r.value ** 2)).toFixed(2))}`);
+        whenisNaN(wyn);
+        obliczanie_pola.append(wynik);
+    }
+}
+
+przycisk2.onclick = function () {
+    clearInputs();
+}
+
+function whenisNaN (value){
+    if(isNaN(value)){
+        wynik.innerText = "Podaj prawidłowe wartości!"
+    }
+};
+		
+		//Zadanie 3
+for (i=0;i<=10;i++) {
+console.log(i);
+}
+
+//Zadanie 1
+let imie="Y";
+let wiek="X";
+console.log("Mam "+wiek+" lat i nazywam się "+imie);
+
+//Zadanie 5
+function zmienKolor() {
+document.querySelector("#content").style.backgroundColor="yellow";
+}
+
+function przywrocKolor() {
+document.querySelector("#content").style.backgroundColor="";
+}
+
+//Zadanie 2
+function daneImiewiek() {
+	let name=document.getElementById("imie").value;
+	let age=document.getElementById("wiek").value;
+	if (age >= 18) {
+	alert ("Imie:  "+name+"  Wiadomość: OK");
+	} else if (age < 18) {
+	alert ("Imie:  "+name+"  Wiadomość: STOP");
+	} else {
+	alert ("Imie:  "+name+"  Wiadomość: BŁĄD - podaj prawidłowy wiek");
+	}
+}
+
+//Mini projekt - licznik kliknięć
+let liczba = 0;
+const licznik = document.getElementById("licznik");
+const plus = document.getElementById("plus");
+
+plus.addEventListener("click", () => {
+liczba = liczba + 1;
+licznik.textContent = liczba;
+});
+//Zadanie 4
+function powitanie(imie) {
+  return `Hej, ${imie}!`;
+}
+// Wywołania funkcji 3 razy:
+console.log(powitanie("Anna"));
+console.log(powitanie("Tomek"));
+console.log(powitanie("Kasia"));
+//Zegar
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const timeString = `${hours}:${minutes}:${seconds}`;
+  document.getElementById('clock').innerText = timeString;
+}
+setInterval(updateClock, 1000);
+updateClock();
+function bmi() {
+let waga=document.getElementById("waga").value;
+let wzrost=document.getElementById("wzrost").value;
+let bmi=waga/(wzrost*wzrost);
+let bmi_zao = bmi.toFixed(2);
+
+    if(bmi < 16){
+      alert('Twoje BMI wskazuje na wygłodzenie, '+bmi_zao);
+    } else if(bmi_zao >= 16 && bmi_zao <= 16.9){
+      alert('Twoje BMI wskazuje na wychudzenie, '+bmi_zao);
+    } else if(bmi_zao >= 17 && bmi_zao <= 18.5){
+      alert('Twoje BMI wskazuje na niedowagę, '+bmi_zao);
+    } else if(bmi_zao >= 18.5 && bmi_zao <= 24.9){
+      alert('Twoje BMI wskazuje na wagę prawidłową, '+bmi_zao);
+    } else if(bmi_zao >= 25 && bmi_zao <= 29.9){
+      alert('Twoje BMI wskazuje na nadwagę, '+bmi_zao);
+    } else if(bmi_zao >= 30 && bmi_zao <= 34.9){
+      alert('Twoje BMI wskazuje na otyłość I stopnia, '+bmi_zao);
+    } else if(bmi_zao >= 35 && bmi_zao <= 39.9){
+      alert('Twoje BMI wskazuje na otyłość II stopnia, '+bmi_zao);
+    } else if(bmi_zao >= 40){
+      alert('Twoje BMI wskazuje na otyłość III stopnia, '+bmi_zao);
+    }
+};
+
+
+// ========================================
+// ZADANIE 1: Formatowanie imienia i nazwiska
+// ========================================
+
+/**
+ * Funkcja formatuje imię i nazwisko do postaci: "NAZWISKO, Imię"
+ * @param {string} firstName - Imię użytkownika
+ * @param {string} lastName - Nazwisko użytkownika
+ * @returns {string} Sformatowany ciąg znaków
+ */
+function formatName(firstName, lastName) {
+    // Konwersja pierwszej litery na wielką, reszty na małe
+    const formattedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+    // Całe nazwisko na wielkie litery
+    const formattedLastName = lastName.toUpperCase();
+    
+    return `${formattedLastName}, ${formattedFirstName}`;
+}
+
+// Obsługa przycisku formatowania
+document.getElementById('formatBtn').addEventListener('click', function() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const resultDiv = document.getElementById('nameResult');
+    
+    if (firstName && lastName) {
+        const formatted = formatName(firstName, lastName);
+        resultDiv.textContent = `Wynik: ${formatted}`;
+    } else {
+        resultDiv.textContent = 'Proszę wpisać imię i nazwisko!';
+    }
+});
+
+
+// ========================================
+// ZADANIE 2: Licznik kliknięć
+// ========================================
+
+// Zmienna przechowująca liczbę kliknięć
+let clickCounter = 0;
+
+// Dodanie event listenera do przycisku
+document.getElementById('clickBtn').addEventListener('click', function() {
+    // Zwiększenie licznika
+    clickCounter++;
+    
+    // Aktualizacja treści w DOM
+    const countDiv = document.getElementById('clickCount');
+    countDiv.textContent = `Liczba kliknięć: ${clickCounter}`;
+});
+
+
+// ========================================
+// ZADANIE 3: Operacje na tablicy (map, filter, reduce)
+// ========================================
+
+// Tablica wejściowa
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+document.getElementById('arrayBtn').addEventListener('click', function() {
+    // Krok 1: Użycie map() do pomnożenia każdej liczby przez 2
+    const doubled = numbers.map(num => num * 2);
+    
+    // Krok 2: Użycie filter() do odfiltrowania liczb parzystych
+    const evenNumbers = doubled.filter(num => num % 2 === 0);
+    
+    // Krok 3: Użycie reduce() do zsumowania liczb
+    const sum = evenNumbers.reduce((accumulator, current) => accumulator + current, 0);
+    
+    // Wyświetlenie wyników
+    const resultDiv = document.getElementById('arrayResult');
+    resultDiv.innerHTML = `
+        <strong>Tablica początkowa:</strong> [${numbers.join(', ')}]<br>
+        <strong>Po pomnożeniu przez 2 (map):</strong> [${doubled.join(', ')}]<br>
+        <strong>Po odfiltrowaniu parzystych (filter):</strong> [${evenNumbers.join(', ')}]<br>
+        <strong>Suma (reduce):</strong> ${sum}
+    `;
+});
+
+
+// ========================================
+// ZADANIE 4: Operator ?? (nullish coalescing)
+// ========================================
+
+document.getElementById('usernameBtn').addEventListener('click', function() {
+    // Pobranie wartości z inputa
+    const inputValue = document.getElementById('usernameInput').value.trim();
+    
+    // Użycie operatora ?? do ustawienia domyślnej wartości
+    // Operator ?? zwraca prawą stronę tylko gdy lewa jest null lub undefined
+    // Dla pustego stringa używamy dodatkowego warunku
+    const username = inputValue || null;
+    const finalUsername = username ?? 'Gość';
+    
+    // Wyświetlenie wyniku
+    const resultDiv = document.getElementById('usernameResult');
+    resultDiv.textContent = `Witaj, ${finalUsername}!`;
+});
+
+
+// ========================================
+// ZADANIE 5: Lista TODO z delegacją zdarzeń
+// ========================================
+
+// Pobranie elementów DOM
+const todoInput = document.getElementById('todoInput');
+const addTodoBtn = document.getElementById('addTodoBtn');
+const todoList = document.getElementById('todoList');
+
+// Licznik dla unikalnych ID zadań
+let todoIdCounter = 0;
+
+// Funkcja dodająca nowe zadanie do listy
+function addTodoItem(taskText) {
+    if (!taskText.trim()) {
+        alert('Proszę wpisać treść zadania!');
+        return;
+    }
+    
+    // Tworzenie nowego elementu li
+    const li = document.createElement('li');
+    li.dataset.id = todoIdCounter++;
+    
+    // Tworzenie struktury zadania
+    li.innerHTML = `
+        <span class="todo-text">${taskText}</span>
+        <button class="delete-btn" data-action="delete">Usuń</button>
+    `;
+    
+    // Dodanie zadania do listy
+    todoList.appendChild(li);
+    
+    // Wyczyszczenie inputa
+    todoInput.value = '';
+}
+
+// Obsługa przycisku dodawania
+addTodoBtn.addEventListener('click', function() {
+    addTodoItem(todoInput.value);
+});
+
+// Obsługa klawisza Enter w inpucie
+todoInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        addTodoItem(todoInput.value);
+    }
+});
+
+// Delegacja zdarzeń na <ul> - obsługa kliknięć
+todoList.addEventListener('click', function(e) {
+    const target = e.target;
+    
+    // Obsługa usuwania zadania
+    if (target.classList.contains('delete-btn')) {
+        const li = target.closest('li');
+        li.remove();
+        return;
+    }
+    
+    // Obsługa oznaczania jako wykonane (kliknięcie na tekst lub całe li)
+    if (target.classList.contains('todo-text') || target.tagName === 'LI') {
+        const li = target.tagName === 'LI' ? target : target.closest('li');
+        li.classList.toggle('completed');
+    }
+});
+
+const celsiusInput = document.querySelector('#celsius');
+const resultDiv = document.querySelector('#result');
+const kelvinSpan = document.querySelector('#kelvin');
+const fahrenheitSpan = document.querySelector('#fahrenheit');
+
+celsiusInput.addEventListener('input', function() {
+const celsius = parseFloat(this.value);
+
+if (isNaN(celsius) || this.value === '') {
+resultDiv.style.display = 'none';
+return;
+}
+
+// Przeliczanie na Kelwiny: K = °C + 273.15
+const kelvin = celsius + 273.15;
+
+// Przeliczanie na Fahrenheity: °F = (°C × 9/5) + 32
+const fahrenheit = (celsius * 9/5) + 32;
+
+kelvinSpan.textContent = kelvin.toFixed(2) + ' °K';
+fahrenheitSpan.textContent = fahrenheit.toFixed(2) + ' °F';
+
+resultDiv.style.display = 'block';
+ });
+
+    </script>
+	</div>
+	<div id="footer">
+		<h4>grzyby.localhost 2025</h4>
+	</div>
+</body>
+</html>
